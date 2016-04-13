@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">ASG</string>
+    <string name="password">Password</string>
+    <string name="mail">E-mail</string>
+    <string name="log_in">Log into ASG</string>
+    <string name="forgot">Forgot your password? Slide right.</string>
+    <string name="reset_password">Reset your password</string>
+    <string name="recover">Recover</string>
+    <string name="log_in2">Log In</string>
+    <string name="email_was_sent">We sent you an email \n with new password</string>
+    <string name="check_please">Please check</string>
 </resources>

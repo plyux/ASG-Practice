@@ -7,32 +7,36 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
-import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import ua.com.solidpart.asg.fragments.ForgotFragment;
 import ua.com.solidpart.asg.fragments.LogInFragment;
-import ua.com.solidpart.asg.fragments.MessegeSend;
 
 public class Authorization extends AppCompatActivity implements View.OnClickListener{
 
-    ViewPager viewPager;
-    Button but;
+    private ViewPager viewPager;
+    private LinearLayout forgot;
+    private LinearLayout send;
+    private ForgotFragment forgotFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
         setContentView(R.layout.activity_autorization);
+
+        forgotFragment = new ForgotFragment();
+
+        send = (LinearLayout) findViewById(R.id.forgot2);
+        send.setVisibility(View.INVISIBLE);
 
         viewPager = (ViewPager) findViewById(R.id.pager);
         /** set the adapter for ViewPager */
         viewPager.setAdapter(new SamplePagerAdapter(
                 getSupportFragmentManager()));
 
-        but = (Button)findViewById(R.id.recover_button);
 
 
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -43,35 +47,47 @@ public class Authorization extends AppCompatActivity implements View.OnClickList
 
             @Override
             public void onPageSelected(int position) {
-                LinearLayout ll = (LinearLayout) findViewById(R.id.ll);
+                LinearLayout forgor_text = (LinearLayout) findViewById(R.id.ll);
                 switch (position) {
                     case 0:
-                        ll.setVisibility(View.VISIBLE);
+                        forgor_text.setVisibility(View.VISIBLE);
+                        send.setVisibility(View.INVISIBLE);
+                        if(forgot != null){
+                            forgot.setVisibility(View.VISIBLE);
+                        }
                         break;
                     case 1:
-                        ll.setVisibility(View.INVISIBLE);
+                        forgor_text.setVisibility(View.INVISIBLE);
                         break;
-                    case 2:
-                        ll.setVisibility(View.INVISIBLE);
                 }
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
             }
         });
 
 
 
-        TextView tv = (TextView)findViewById(R.id.MarqueeText);
-        tv.setSelected(true);
+        TextView forget = (TextView)findViewById(R.id.MarqueeText);
+        forget.setSelected(true);
 
     }
 
     @Override
-    public void onClick(View v) {
-        viewPager.setCurrentItem(2);
+    public void onClick(View v)
+    {
+        switch(v.getId()){
+            case R.id.recover_button:
+                send.setVisibility(View.VISIBLE);
+                forgot = (LinearLayout)findViewById(R.id.forgot1);
+                forgot.setVisibility(View.INVISIBLE);
+                viewPager.setCurrentItem(2);
+                TextView mail_set = (TextView)findViewById(R.id.text_mail);
+                EditText mail_get = (EditText)findViewById(R.id.get_mail);
+                mail_set.setText(mail_get.getText());
+                break;
+        }
     }
 
     public class SamplePagerAdapter extends FragmentPagerAdapter {
@@ -84,13 +100,12 @@ public class Authorization extends AppCompatActivity implements View.OnClickList
         public Fragment getItem(int position) {
             /** Show a Fragment based on the position of the current screen */
 
+
             switch (position){
                 case 0:
                     return new LogInFragment();
                 case 1:
-                    return new ForgotFragment();
-                case 2:
-                    return new MessegeSend();
+                    return forgotFragment;
 
             }
             return null;
@@ -100,8 +115,7 @@ public class Authorization extends AppCompatActivity implements View.OnClickList
 
         @Override
         public int getCount() {
-            // Show 2 total pages.
-            return 3;
+            return 2;
         }
     }
 
